@@ -1,0 +1,501 @@
+{%- comment -%}
+  Reem Jawad Header - Custom Header Section
+  Structure:
+  1. Announcement Bar (burgundy #8B3A52, white text)
+  2. Top Row: Categories | Logo | Icons (Language, Search, Account, Bag)
+  3. Bottom Row: Main Navigation (Home, Shop, Collections, About, Contact)
+{%- endcomment -%}
+
+<style>
+  .rj-header {
+    width: 100%;
+    position: relative;
+    z-index: 50;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    background: var(--color-background, #FFFFFF);
+  }
+
+  /* Announcement Bar */
+  .rj-header__announcement {
+    padding: 8px 0;
+    background: #8B3A52;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rj-header__announcement-text {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-family: var(--font-body-family), 'Noto Sans', sans-serif;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.6px;
+  }
+
+  /* Top Row Container */
+  .rj-header__top {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 12px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Category Links (Left) */
+  .rj-header__categories {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .rj-header__category-link {
+    color: rgba(26, 26, 26, 0.80);
+    font-size: 12px;
+    font-family: var(--font-body-family), 'Noto Sans', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 16px;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .rj-header__category-link:hover {
+    color: #8B3A52;
+  }
+
+  /* Logo (Center) */
+  .rj-header__logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rj-header__logo-image {
+    width: 84px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  .rj-header__logo-text {
+    font-family: var(--font-heading-family), 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1A1A1A;
+    text-decoration: none;
+  }
+
+  /* Icons (Right) */
+  .rj-header__icons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rj-header__icon-link {
+    padding: 10px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+    color: #1A1A1A;
+  }
+
+  .rj-header__icon-link:hover {
+    background: rgba(139, 58, 82, 0.05);
+  }
+
+  .rj-header__icon-link svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .rj-header__icon-text {
+    color: #1A1A1A;
+    font-size: 12px;
+    font-family: var(--font-body-family), 'Noto Sans', sans-serif;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .rj-header__lang-text {
+    color: rgba(26, 26, 26, 0.80);
+    font-size: 12px;
+    font-family: var(--font-body-family), 'Noto Sans Arabic', Arial, sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 16px;
+    letter-spacing: 1.2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .rj-header__lang-flag {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  /* Navigation (Bottom Row) */
+  .rj-header__nav {
+    padding: 0 48px;
+    border-top: 1px solid #E5E5E5;
+    width: 100%;
+  }
+
+  .rj-header__nav-list {
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    list-style: none;
+    margin: 0;
+  }
+
+  .rj-header__nav-link {
+    padding: 8px 0;
+    color: rgba(26, 26, 26, 0.80);
+    font-size: 12px;
+    font-family: var(--font-body-family), 'Noto Sans', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 16px;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .rj-header__nav-link:hover,
+  .rj-header__nav-link--active {
+    color: #8B3A52;
+  }
+
+  /* Mobile Toggle */
+  .rj-header__mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  /* Mobile Menu Drawer */
+  .rj-mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .rj-mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .rj-mobile-menu__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .rj-mobile-menu__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .rj-mobile-menu__content {
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .rj-mobile-menu__link {
+    display: block;
+    padding: 18px 0;
+    font-size: 18px;
+    color: #1A1A1A;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-family: var(--font-heading-family), 'Playfair Display', serif;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+
+  .rj-mobile-menu__link:hover {
+    color: #8B3A52;
+    padding-left: 8px;
+  }
+
+  .rj-mobile-menu__footer {
+    padding: 20px;
+    margin-top: auto;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .rj-mobile-menu__lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1A1A1A;
+    font-size: 14px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .rj-header__top {
+      padding: 12px 16px;
+    }
+
+    .rj-header__categories {
+      display: none;
+    }
+
+    .rj-header__icons .rj-header__icon-text {
+      display: none;
+    }
+
+    .rj-header__nav {
+      display: none;
+    }
+
+    .rj-header__mobile-toggle {
+      display: flex;
+    }
+
+    .rj-header__logo-image {
+      width: 60px;
+      height: 46px;
+    }
+
+    .rj-header__icons .rj-header__icon-link[href="/search"],
+    .rj-header__icons .rj-header__icon-link[href="/account"] {
+      display: none;
+    }
+  }
+
+  /* RTL Support */
+  html[dir="rtl"] .rj-header__categories,
+  html[dir="rtl"] .rj-header__icons,
+  html[dir="rtl"] .rj-header__nav-list {
+    flex-direction: row-reverse;
+  }
+
+  html[dir="rtl"] .rj-header__top {
+    flex-direction: row-reverse;
+  }
+
+  html[dir="rtl"] .rj-mobile-menu {
+    right: 0;
+    left: auto;
+    transform: translateX(100%);
+  }
+
+  html[dir="rtl"] .rj-mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  html[dir="rtl"] .rj-mobile-menu__link:hover {
+    padding-left: 0;
+    padding-right: 8px;
+  }
+</style>
+
+<header class="rj-header" data-rj-header>
+  {%- if section.settings.show_announcement -%}
+    <div class="rj-header__announcement">
+      <div class="rj-header__announcement-text">
+        {{ section.settings.announcement_text | default: '12% off when you buy 2+ dresses' }}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="rj-header__main">
+    <div class="rj-header__top">
+      <div class="rj-header__categories">
+        <a href="/collections/new-in" class="rj-header__category-link">{{ 'header.new_in' | t | default: 'New In' }}</a>
+        <a href="/collections/best-seller" class="rj-header__category-link">{{ 'header.best_seller' | t | default: 'Best Seller' }}</a>
+        <a href="/pages/about" class="rj-header__category-link">{{ 'header.about_us' | t | default: 'About Us' }}</a>
+      </div>
+
+      <div class="rj-header__logo-wrapper">
+        <a href="/" class="rj-header__logo-link">
+          {%- if settings.logo != blank -%}
+            <img src="{{ settings.logo | image_url: width: 168 }}" alt="{{ shop.name }}" class="rj-header__logo-image" width="84" height="64" loading="eager">
+          {%- else -%}
+            <span class="rj-header__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+      <div class="rj-header__icons">
+        <a href="{% if request.locale.iso_code == 'en' %}/ar{% else %}/{% endif %}" class="rj-header__icon-link">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14.667a6.667 6.667 0 100-13.334 6.667 6.667 0 000 13.334z" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 1.333c-1.712 1.798-2.667 4.185-2.667 6.667s.955 4.87 2.667 6.667c1.712-1.798 2.667-4.185 2.667-6.667S9.712 3.13 8 1.333z" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/><path d="M1.333 8h13.334" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="rj-header__lang-text">
+            {%- if request.locale.iso_code == 'en' -%}
+              <span class="rj-header__lang-flag">🇯🇴</span> الأردن
+            {%- else -%}
+              <span class="rj-header__lang-flag">🇬🇧</span> EN
+            {%- endif -%}
+          </span>
+        </a>
+
+        <a href="/search" class="rj-header__icon-link">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M7.333 12.667a5.333 5.333 0 100-10.667 5.333 5.333 0 000 10.667z" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 14l-2.867-2.867" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="rj-header__icon-text">{{ 'header.search' | t | default: 'Search' }}</span>
+        </a>
+
+        <a href="/account" class="rj-header__icon-link">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M12.667 14v-1.333A2.667 2.667 0 0010 10H6a2.667 2.667 0 00-2.667 2.667V14" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 7.333A2.667 2.667 0 108 2a2.667 2.667 0 000 5.333z" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="rj-header__icon-text">{{ 'header.account' | t | default: 'Account' }}</span>
+        </a>
+
+        <a href="/cart" class="rj-header__icon-link" data-cart-toggle>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 1.333L2 4v9.333c0 .354.14.693.39.943s.59.39.943.39h9.334c.353 0 .693-.14.943-.39s.39-.59.39-.943V4l-2-2.667H4z" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 4h12" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.667 6.667a2.667 2.667 0 01-5.334 0" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="rj-header__icon-text">{{ 'header.bag' | t | default: 'Bag' }} (<span data-cart-count>{{ cart.item_count }}</span>)</span>
+        </a>
+
+        <button class="rj-header__mobile-toggle" data-mobile-menu-open aria-label="{{ 'accessibility.open_menu' | t }}">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="rj-header__nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+      <ul class="rj-header__nav-list">
+        <li><a href="/" class="rj-header__nav-link{% if request.path == '/' %} rj-header__nav-link--active{% endif %}">{{ 'header.home' | t | default: 'Home' }}</a></li>
+        <li><a href="/collections/all" class="rj-header__nav-link{% if request.path contains '/collections/' %} rj-header__nav-link--active{% endif %}">{{ 'header.shop' | t | default: 'Shop' }}</a></li>
+        <li><a href="/collections" class="rj-header__nav-link{% if request.path == '/collections' %} rj-header__nav-link--active{% endif %}">{{ 'header.collections' | t | default: 'Collections' }}</a></li>
+        <li><a href="/pages/about" class="rj-header__nav-link{% if request.path contains '/pages/about' %} rj-header__nav-link--active{% endif %}">{{ 'header.about' | t | default: 'About' }}</a></li>
+        <li><a href="/pages/contact" class="rj-header__nav-link{% if request.path contains '/pages/contact' %} rj-header__nav-link--active{% endif %}">{{ 'header.contact' | t | default: 'Contact' }}</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="rj-mobile-menu" id="RJMobileMenu" hidden>
+    <div class="rj-mobile-menu__header">
+      <div class="rj-header__logo-wrapper">
+        {%- if settings.logo != blank -%}
+          <img src="{{ settings.logo | image_url: width: 100 }}" alt="{{ shop.name }}" style="height: 40px; object-fit: contain;">
+        {%- else -%}
+          <span class="rj-header__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </div>
+      <button class="rj-mobile-menu__close" data-mobile-menu-close aria-label="{{ 'accessibility.close' | t | default: 'Close' }}">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6L6 18M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="rj-mobile-menu__content">
+      <a href="/" class="rj-mobile-menu__link">{{ 'header.home' | t | default: 'Home' }}</a>
+      <a href="/collections/all" class="rj-mobile-menu__link">{{ 'header.shop' | t | default: 'Shop' }}</a>
+      <a href="/collections" class="rj-mobile-menu__link">{{ 'header.collections' | t | default: 'Collections' }}</a>
+      <a href="/pages/about" class="rj-mobile-menu__link">{{ 'header.about' | t | default: 'About' }}</a>
+      <a href="/pages/contact" class="rj-mobile-menu__link">{{ 'header.contact' | t | default: 'Contact' }}</a>
+      <a href="/account" class="rj-mobile-menu__link">{{ 'header.account' | t | default: 'My Account' }}</a>
+      <a href="/search" class="rj-mobile-menu__link">{{ 'header.search' | t | default: 'Search' }}</a>
+    </div>
+    <div class="rj-mobile-menu__footer">
+      <a href="{% if request.locale.iso_code == 'en' %}/ar{% else %}/{% endif %}" class="rj-mobile-menu__lang-toggle">
+        {%- if request.locale.iso_code == 'en' -%}
+          <span>🇯🇴</span><span>العربية - الأردن</span>
+        {%- else -%}
+          <span>🇬🇧</span><span>English</span>
+        {%- endif -%}
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const header = document.querySelector('.rj-header');
+  const mobileMenu = document.getElementById('RJMobileMenu');
+  const openBtn = document.querySelector('[data-mobile-menu-open]');
+  const closeBtn = document.querySelector('[data-mobile-menu-close]');
+  let lastScrollTop = 0;
+
+  if (openBtn && mobileMenu) {
+    openBtn.addEventListener('click', () => {
+      mobileMenu.hidden = false;
+      requestAnimationFrame(() => mobileMenu.classList.add('open'));
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  if (closeBtn && mobileMenu) {
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      setTimeout(() => {
+        mobileMenu.hidden = true;
+        document.body.style.overflow = '';
+      }, 300);
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+      header.style.transform = 'translateY(-100%)';
+    } else {
+      header.style.transform = 'translateY(0)';
+    }
+    lastScrollTop = scrollTop;
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "RJ Header",
+  "class": "rj-header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "12% off when you buy 2+ dresses"
+    },
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable sticky header",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
