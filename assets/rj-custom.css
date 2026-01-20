@@ -1,0 +1,319 @@
+/**
+ * Reem Jawad - Custom Brand Styles
+ * This file contains all brand-specific CSS overrides for the Horizon theme
+ * 
+ * How to use:
+ * 1. This file overrides Horizon's default styles
+ * 2. Edit variables to change colors, fonts, spacing globally
+ * 3. Add custom component styles below
+ * 
+ * Color Palette:
+ * - Primary/Accent: #8B3A52 (Burgundy)
+ * - Text: #1A1A1A
+ * - Text Muted: rgba(26, 26, 26, 0.8)
+ * - Background: #FFFFFF
+ * - Gold Accent: #D4AF6A
+ * - Dark Background: #1A1A1A
+ */
+
+/* ============================================
+   BRAND CSS VARIABLES
+   ============================================ */
+:root {
+    /* Primary Colors */
+    --rj-color-primary: #8B3A52;
+    --rj-color-primary-rgb: 139, 58, 82;
+    --rj-color-gold: #D4AF6A;
+    --rj-color-gold-hover: #c9a35f;
+
+    /* Text Colors */
+    --rj-color-text: #1A1A1A;
+    --rj-color-text-muted: rgba(26, 26, 26, 0.8);
+    --rj-color-text-light: #666666;
+
+    /* Background Colors */
+    --rj-color-bg: #FFFFFF;
+    --rj-color-bg-dark: #1A1A1A;
+    --rj-color-bg-off: #F8F8F8;
+
+    /* Border Colors */
+    --rj-color-border: #E5E5E5;
+    --rj-color-border-dark: #333333;
+
+    /* Typography */
+    --rj-font-heading: 'Playfair Display', Georgia, serif;
+    --rj-font-body: 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Spacing */
+    --rj-section-padding: 80px;
+    --rj-container-max: 1440px;
+    --rj-gutter: 48px;
+}
+
+/* ============================================
+   GLOBAL OVERRIDES
+   ============================================ */
+
+/* Override Horizon's accent color */
+body {
+    --color-accent: var(--rj-color-primary);
+    --color-accent-rgb: var(--rj-color-primary-rgb);
+}
+
+/* Link styles */
+a:hover {
+    color: var(--rj-color-primary);
+}
+
+/* Button overrides */
+.button--primary,
+.btn--primary,
+.shopify-challenge__button {
+    background-color: var(--rj-color-primary) !important;
+    border-color: var(--rj-color-primary) !important;
+}
+
+.button--primary:hover,
+.btn--primary:hover {
+    background-color: #7A3247 !important;
+    border-color: #7A3247 !important;
+}
+
+/* Gold accent buttons (newsletter, CTA) */
+.button--gold,
+.btn--gold {
+    background-color: var(--rj-color-gold);
+    color: #1A1A1A;
+    border: none;
+}
+
+.button--gold:hover,
+.btn--gold:hover {
+    background-color: var(--rj-color-gold-hover);
+}
+
+/* ============================================
+   TYPOGRAPHY OVERRIDES
+   ============================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading,
+.title {
+    font-family: var(--rj-font-heading);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+body,
+.body-text,
+.paragraph {
+    font-family: var(--rj-font-body);
+    line-height: 1.6;
+}
+
+/* ============================================
+   ANNOUNCEMENT BAR - BRAND COLORS
+   ============================================ */
+
+.announcement-bar,
+.header-announcements,
+[class*="announcement"] {
+    background-color: var(--rj-color-primary) !important;
+    color: #FFFFFF !important;
+}
+
+.announcement-bar *,
+.header-announcements * {
+    color: #FFFFFF !important;
+}
+
+/* ============================================
+   HEADER CUSTOMIZATIONS
+   ============================================ */
+
+/* Active navigation state */
+.header-menu a.active,
+.header-menu a[aria-current="page"] {
+    color: var(--rj-color-primary);
+}
+
+/* Navigation hover */
+.header-menu a:hover {
+    color: var(--rj-color-primary);
+}
+
+/* Cart count badge */
+.cart-count-bubble,
+[class*="cart-count"],
+[data-cart-count]::after {
+    background-color: var(--rj-color-primary);
+    color: #FFFFFF;
+}
+
+/* ============================================
+   PRODUCT CARDS
+   ============================================ */
+
+.product-card:hover .product-card__title {
+    color: var(--rj-color-primary);
+}
+
+/* Sale badges */
+.badge--sale,
+.price--on-sale {
+    color: var(--rj-color-primary);
+}
+
+/* Add to cart button */
+.product-card .quick-add-button,
+.add-to-cart-button {
+    background-color: var(--rj-color-primary);
+    color: #FFFFFF;
+}
+
+.product-card .quick-add-button:hover,
+.add-to-cart-button:hover {
+    background-color: #7A3247;
+}
+
+/* ============================================
+   COLLECTION PAGE CUSTOMIZATIONS
+   ============================================ */
+
+/* Filter active states */
+.facets__filter.active,
+[data-active-filter] {
+    color: var(--rj-color-primary);
+    border-color: var(--rj-color-primary);
+}
+
+/* ============================================
+   FOOTER BRAND STYLES
+   ============================================ */
+
+/* Dark footer background */
+footer,
+.footer,
+.site-footer {
+    background-color: var(--rj-color-bg-dark);
+    color: #FFFFFF;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: var(--rj-color-gold);
+}
+
+/* Footer newsletter */
+.footer-newsletter .button,
+.footer .newsletter-form button {
+    background-color: var(--rj-color-gold);
+    color: var(--rj-color-bg-dark);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.footer-newsletter .button:hover,
+.footer .newsletter-form button:hover {
+    background-color: var(--rj-color-gold-hover);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero-section .button,
+.hero .btn {
+    background-color: transparent;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+.hero-section .button:hover,
+.hero .btn:hover {
+    background-color: #FFFFFF;
+    color: var(--rj-color-text);
+}
+
+/* ============================================
+   FORM INPUTS
+   ============================================ */
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--rj-color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--rj-color-primary-rgb), 0.1);
+}
+
+/* ============================================
+   LOADING / SPINNER
+   ============================================ */
+
+.loading-overlay__spinner,
+.spinner {
+    color: var(--rj-color-primary);
+}
+
+/* ============================================
+   SELECTION STYLES
+   ============================================ */
+
+::selection {
+    background-color: var(--rj-color-primary);
+    color: #FFFFFF;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+    :root {
+        --rj-section-padding: 48px;
+        --rj-gutter: 20px;
+    }
+}
+
+/* ============================================
+   RTL (Right-to-Left) SUPPORT
+   ============================================ */
+
+html[dir="rtl"] {
+    /* RTL direction is set by Shopify automatically */
+    direction: rtl;
+}
+
+/* ============================================
+   CUSTOM SECTION STYLES
+   Add your custom section styles below
+   ============================================ */
+
+/* Example: Instagram Feed Section */
+.instagram-section .instagram-title {
+    font-family: var(--rj-font-heading);
+    color: var(--rj-color-primary);
+}
+
+/* Example: Featured Collection */
+.featured-collection .section-heading {
+    font-family: var(--rj-font-heading);
+}
+
+/* Example: Category Grid */
+.category-grid .category-card:hover {
+    border-color: var(--rj-color-primary);
+}
+
+.category-grid .category-title {
+    font-family: var(--rj-font-heading);
+}
